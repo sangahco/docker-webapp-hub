@@ -1,0 +1,14 @@
+version: "2"
+
+services:
+  upload:
+    image: ${REGISTRY_URL}/pmis-fileupload
+    volumes:
+    - tmp:/tmp
+    - ngx:/etc/nginx/www
+    - ${LOG_PATH}/nginx:/var/log/nginx
+
+  php:
+    image: php:5.6-fpm
+    volumes:
+    - ngx:/etc/nginx/www

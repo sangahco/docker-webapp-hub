@@ -8,8 +8,30 @@ services:
     - "443:443"
     networks:
     - hub_net
+    volumes: 
+    - ./ssl:/etc/nginx/ssl
+    restart: "unless-stopped"
+
+  upload:
+    extends: 
+      file: common-services.yml
+      service: upload
+    networks:
+    - hub_net
+    restart: "unless-stopped"
+
+  php:
+    extends: 
+      file: common-services.yml
+      service: php
+    networks:
+    - hub_net
     restart: "unless-stopped"
 
 networks: 
   hub_net:
     external: true
+
+volumes: 
+  ngx:
+  tmp:
