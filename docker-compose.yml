@@ -1,0 +1,15 @@
+version: "2"
+
+services:
+  hub:
+    build: hub
+    ports:
+    - "80:80"
+    - "443:443"
+    networks:
+    - hub_net
+    restart: "unless-stopped"
+
+networks: 
+  hub_net:
+    external: true
