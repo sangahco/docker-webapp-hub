@@ -9,7 +9,7 @@ services:
     networks:
     - hub_net
     volumes: 
-    - ./ssl:/etc/nginx/ssl
+    - ${SSL_HOME}:/etc/nginx/ssl
     restart: "unless-stopped"
 
   upload:
