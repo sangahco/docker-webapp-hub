@@ -6,6 +6,12 @@ server {
         set $upstream_webapp pmis2;
         proxy_pass http://$upstream_webapp;
     }
+
+    # redirect to https
+    #location / {
+    #    return 301 https://$server_name$request_uri;
+    #}
+
 }
 
 # server {
