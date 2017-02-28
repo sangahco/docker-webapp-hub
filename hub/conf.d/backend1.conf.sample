@@ -1,27 +1,22 @@
 server {
     listen 80;
     server_name pmis1.kspmis.com;
-    
+
+    location / {
+        return 301 https://$server_name$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl;
+    server_name pmis1.kspmis.com;
+   
     location / {
         set $upstream_webapp pmis1;
         proxy_pass http://$upstream_webapp;
+        proxy_set_header Host $http_host;
     }
 
-    # redirect to https
-    #location / {
-    #    return 301 https://$server_name$request_uri;
-    #}
+    ssl_certificate /etc/nginx/ssl/cert.pem;
+    ssl_certificate_key /etc/nginx/ssl/privkey.pem;
 }
-
-# server {
-#     listen 443 ssl;
-#     server_name pmis1.kspmis.com;
-    
-#     location / {
-#         set $upstream_webapp pmis1;
-#         proxy_pass http://$upstream_webapp;
-#     }
-
-#     ssl_certificate /etc/nginx/ssl/cert.pem;
-#     ssl_certificate_key /etc/nginx/ssl/privkey.pem;
-# }

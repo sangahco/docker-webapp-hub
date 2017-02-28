@@ -10,6 +10,7 @@ services:
     - hub_net
     volumes: 
     - ${SSL_HOME}:/etc/nginx/ssl
+    - /etc/letsencrypt:/etc/letsencrypt
     restart: "unless-stopped"
 
   upload:
