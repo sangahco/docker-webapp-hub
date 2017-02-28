@@ -6,6 +6,6 @@ server {
         set $upstream_webapp pmis2;
         proxy_pass http://$upstream_webapp;
         
-        include conf.d/proxy-header-x.include;
+        include conf.d/proxy-header.include;
     }
 }
