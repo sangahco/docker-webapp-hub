@@ -14,7 +14,8 @@ server {
     location / {
         set $upstream_webapp pmis1;
         proxy_pass http://$upstream_webapp;
-        proxy_set_header Host $http_host;
+        
+        include conf.d/proxy-header-x.include;
     }
 
     ssl_certificate /etc/nginx/ssl/cert.pem;

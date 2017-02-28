@@ -8,4 +8,4 @@ fi
 
 envsubst '$NAMESERVERS' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf
 
-exec nginx -g "daemon off;"
+exec nginx -g "daemon off;" "$@"

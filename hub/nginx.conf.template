@@ -40,6 +40,11 @@ http {
     gzip_types text/plain text/css application/x-javascript
                text/xml application/xml application/xml+rss text/javascript;
 
+    map $http_upgrade $connection_upgrade {
+        'websocket' upgrade;
+        default close;
+    }
+
     include /etc/nginx/conf.d/*.conf;
 
 }
