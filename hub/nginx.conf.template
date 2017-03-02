@@ -31,9 +31,13 @@ http {
 
     types_hash_max_size 2048;
 
-    gzip  on;
+    gzip on;
     gzip_comp_level 2;
-    gzip_proxied any;
+    gzip_types      text/plain application/xml;
+    gzip_proxied    no-cache no-store private expired auth;
+    gzip_min_length 1000;
+
+    client_max_body_size 4000M;
 
     # text/html included by default
     # http://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip_types
@@ -46,5 +50,6 @@ http {
     }
 
     include /etc/nginx/conf.d/*.conf;
+    include /usr/share/nginx/conf.d/*.conf;
 
 }
