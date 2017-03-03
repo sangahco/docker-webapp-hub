@@ -11,6 +11,7 @@ services:
     volumes: 
     - ${SSL_HOME}:/etc/nginx/ssl
     - /etc/letsencrypt:/etc/letsencrypt
+    - /tmp:/usr/share/nginx/html
     - ./conf.d:/usr/share/nginx/conf.d
     restart: "unless-stopped"
 
