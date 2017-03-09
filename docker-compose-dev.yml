@@ -13,7 +13,6 @@ services:
     - /etc/letsencrypt:/etc/letsencrypt
     - /tmp:/usr/share/nginx/html
     - ./conf.d:/usr/share/nginx/conf.d
-    restart: "unless-stopped"
 
   upload:
     extends: 
@@ -21,7 +20,6 @@ services:
       service: upload
     networks:
     - hub_net
-    restart: "unless-stopped"
 
   php:
     extends: 
@@ -29,7 +27,6 @@ services:
       service: php
     networks:
     - hub_net
-    restart: "unless-stopped"
 
 networks: 
   hub_net:
