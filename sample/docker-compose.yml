@@ -1,0 +1,17 @@
+version: "2"
+
+services: 
+
+  nginx:
+    container_name: sample-web-srv
+    image: nginx:alpine
+    volumes: 
+    - ./html:/usr/share/nginx/html
+    networks: 
+      hub_net:
+        aliases:
+        - sample
+
+networks: 
+  hub_net:
+    external: true
