@@ -8,6 +8,4 @@ server {
         
         include conf.d/proxy-header.include;
     }
-
-    include conf.d/location-nolog.include;
 }
