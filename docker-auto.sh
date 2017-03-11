@@ -11,6 +11,10 @@ if [ -z "$REGISTRY_URL" ]; then
     REGISTRY_URL="$(cat .env | awk 'BEGIN { FS="="; } /^REGISTRY_URL/ {sub(/\r/,"",$2); print $2;}')"
 fi
 
+CONF_ARG="-f docker-compose.yml"
+HUB_NETWORK_NAME="hub_net"
+HUB_NETWORK_ID="$(docker network ls --format {{.ID}} --filter name=$HUB_NETWORK_NAME)"
+
 SCRIPT_BASE_PATH=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd "$SCRIPT_BASE_PATH"
 
@@ -34,8 +38,6 @@ echo "  stop-all        Stop all containers running"
 echo "  build           Build the image"
 echo "  publish         Publish the image to the registry"
 }
-
-CONF_ARG="-f docker-compose.yml"
 
 if [ $# -eq 0 ]; then
     usage
@@ -66,6 +68,9 @@ echo "Arguments: $CONF_ARG"
 echo "Command: $@"
 
 if [ "$1" == "up" ]; then
+    if [ -z $HUB_NETWORK_ID ]; then
+        docker network create $HUB_NETWORK_NAME
+    fi
     docker-compose $CONF_ARG pull
     docker-compose $CONF_ARG build --pull
     docker-compose $CONF_ARG up -d --remove-orphans
@@ -90,7 +95,7 @@ elif [ "$1" == "build" ]; then
     if [ -z "$REGISTRY_URL" ]; then echo "REGISTRY_URL not defined."; exit 1; fi
     if [ -z "$PROJECT_NAME" ]; then echo "PROJECT_NAME not defined."; exit 1; fi
     
-    docker build -t $REGISTRY_URL/$PROJECT_NAME was
+    docker build -t $REGISTRY_URL/$PROJECT_NAME hub
     exit 0
 
 elif [ "$1" == "publish" ]; then
