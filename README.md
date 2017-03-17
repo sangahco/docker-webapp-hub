@@ -18,10 +18,6 @@ The upstream name is the value you gave to the variable [`HUB_INSTANCE`](https:/
 
 ---
 
-Before running the service create the network with the following command:
-
-    $ docker network create hub_net
-
 ## Run using `docker-auto` script
 
 This is the recommended way to run this service, start the service with the following command:
@@ -36,8 +32,17 @@ See the help for more commands:
 
     $ ./docker-auto --help
 
+Check the services are running with:
+
+    $ ./docker-auto --prod ps
+
 
 ## Run with `docker-compose`
+
+Before running the service create the network and the temporary volume with the following command:
+
+    $ docker network create hub_net
+    $ docker volume create --name=tmp
 
 
 Then start the service with:

@@ -36,3 +36,4 @@ networks:
 volumes: 
   ngx:
   tmp:
+    external: true

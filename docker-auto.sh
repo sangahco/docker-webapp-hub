@@ -14,9 +14,24 @@ fi
 CONF_ARG="-f docker-compose.yml"
 HUB_NETWORK_NAME="hub_net"
 HUB_NETWORK_ID="$(docker network ls --format {{.ID}} --filter name=$HUB_NETWORK_NAME)"
+HUB_TEMP_VOLUME_NAME="tmp"
 
 SCRIPT_BASE_PATH=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd "$SCRIPT_BASE_PATH"
+
+on_run() {
+    if [ $(docker volume ls -q | grep -e "^${HUB_TEMP_VOLUME_NAME}$" | wc -l) -eq "0" ]
+    then
+        echo "Creating temporary volume..."
+        docker volume create --name=$HUB_TEMP_VOLUME_NAME >/dev/null
+    fi
+
+    if [ $(docker network ls --format={{.Name}} | grep -e "^${HUB_NETWORK_NAME}$" | wc -l) -eq "0" ]
+    then
+        echo "Creating hub network..."
+        HUB_NETWORK_ID="$(docker network create $HUB_NETWORK_NAME)"
+    fi
+}
 
 usage() {
 echo "Usage:  $(basename "$0") [MODE] [OPTIONS] [COMMAND]"
@@ -68,9 +83,7 @@ echo "Arguments: $CONF_ARG"
 echo "Command: $@"
 
 if [ "$1" == "up" ]; then
-    if [ -z $HUB_NETWORK_ID ]; then
-        docker network create $HUB_NETWORK_NAME
-    fi
+    on_run
     docker-compose $CONF_ARG pull
     docker-compose $CONF_ARG build --pull
     docker-compose $CONF_ARG up -d --remove-orphans
