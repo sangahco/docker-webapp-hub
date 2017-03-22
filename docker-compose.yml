@@ -11,7 +11,7 @@ services:
     - "443:443"
     networks:
     - hub_net
-    restart: "on-failure"
+    restart: "unless-stopped"
 
   upload:
     extends: 
@@ -19,7 +19,7 @@ services:
       service: upload
     networks:
     - hub_net
-    restart: "on-failure"
+    restart: "unless-stopped"
 
   php:
     extends: 
@@ -27,7 +27,7 @@ services:
       service: php
     networks:
     - hub_net
-    restart: "on-failure"
+    restart: "unless-stopped"
 
 networks: 
   hub_net:
