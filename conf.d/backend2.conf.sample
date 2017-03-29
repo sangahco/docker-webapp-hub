@@ -1,8 +1,10 @@
 server {
     listen 80;
+    ### 1: CHANGE THE DOMAIN!
     server_name pmis2.kspmis.com;
     
     location / {
+        ### 2: CHANGE THE ALIAS!
         set $upstream_webapp pmis2;
         proxy_pass http://$upstream_webapp;
         
