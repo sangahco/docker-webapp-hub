@@ -19,6 +19,5 @@ services:
     - LOGSPOUT=ignore
     volumes: 
     - ${SSL_HOME}:${SSL_HOME}
-    - /etc/letsencrypt:/etc/letsencrypt
     - /tmp:/usr/share/nginx/html
     - ./conf.d:/usr/share/nginx/conf.d
