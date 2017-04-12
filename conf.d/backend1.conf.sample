@@ -21,6 +21,6 @@ server {
     }
 
     ### 4: CHANGE THESE PATH!
-    ssl_certificate /tmp/ssl/cert.pem;
-    ssl_certificate_key /tmp/ssl/privkey.pem;
+    #ssl_certificate /tmp/ssl/cert.pem;
+    #ssl_certificate_key /tmp/ssl/privkey.pem;
 }
