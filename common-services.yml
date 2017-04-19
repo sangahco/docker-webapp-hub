@@ -3,21 +3,34 @@ version: "2"
 services:
   upload:
     image: ${REGISTRY_URL}/pmis-fileupload
+    extends:
+      service: logging
     volumes:
     - tmp:/tmp
     - ngx:/etc/nginx/www
 
   php:
     image: php:5.6-fpm
+    extends:
+      service: logging
     volumes:
     - ngx:/etc/nginx/www
     environment:
     - LOGSPOUT=ignore
 
   hub:
+    extends:
+      service: logging
     environment:
     - LOGSPOUT=ignore
     volumes: 
     - ${SSL_HOME}:${SSL_HOME}
     - /tmp:/usr/share/nginx/html
     - ./conf.d:/usr/share/nginx/conf.d
+
+  logging:
+    logging: 
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
