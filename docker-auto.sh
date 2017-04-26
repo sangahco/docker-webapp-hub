@@ -8,6 +8,8 @@ HUB_NETWORK_NAME="hub_net"
 HUB_NETWORK_ID="$(docker network ls --format {{.ID}} --filter name=$HUB_NETWORK_NAME)"
 HUB_TEMP_VOLUME_NAME="tmp"
 SCRIPT_BASE_PATH=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+PATH=$PATH:/usr/local/bin/
+
 cd "$SCRIPT_BASE_PATH"
 
 PROJECT_NAME="$PROJECT_NAME"
