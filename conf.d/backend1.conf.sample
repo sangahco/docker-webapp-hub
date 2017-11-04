@@ -2,9 +2,7 @@ server {
     listen 80;
     ### 1: CHANGE THE DOMAIN!
     server_name pmis1.kspmis.com;
-    location / {
-        return 301 https://$server_name$request_uri;
-    }
+    return 301 https://$server_name$request_uri;
 }
 
 server {
@@ -12,7 +10,6 @@ server {
 
     ### 2: CHANGE THE DOMAIN!
     server_name pmis1.kspmis.com;
-    add_header X-Request-ID $request_id; # Return to client
     location / {
         ### 3: CHANGE THE ALIAS!
         set $upstream_webapp pmis1;
