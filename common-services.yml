@@ -25,7 +25,7 @@ services:
     - LOGSPOUT=ignore
     volumes: 
     - ${SSL_HOME}:${SSL_HOME}
-    - ./conf.d:/usr/share/nginx/conf.d
+    - ./conf.d:/usr/share/nginx/vhosts/
 
   logging:
     logging: 
