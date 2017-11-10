@@ -26,6 +26,7 @@ services:
     volumes: 
     - ${SSL_HOME}:${SSL_HOME}
     - ./conf.d:/usr/share/nginx/vhosts/
+    - ${HTPASSWD_PATH}:/usr/share/nginx/conf.d/.htpasswd
 
   logging:
     logging: 
