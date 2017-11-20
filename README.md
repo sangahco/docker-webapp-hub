@@ -2,6 +2,8 @@
 
 Thss web server is used as a controller for several PMIS application running on the same server.
 
+![HUB](img/hub.png)
+
 ## Configuration
 
 Under the folder `hub/conf.d` there are two examples of configuration for one PMIS application.
