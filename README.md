@@ -54,3 +54,16 @@ Or to check new images and update and build with:
     $ docker-compose pull
     $ docker-compose build --pull
     $ docker-compose up -d
+
+
+## Testing configuration
+
+Everytime we make some change to the configuration under the folder `conf.d` we need to reload the hub.
+In case the hub is running and we don't want to cause a crash of the service in case we made some mistakes is always better to check if the configuration we changed has some errors.
+
+In order to try the configuration we can use the following command from the hub folder (make sure the hub is running).
+
+    $ ./docker-auto.sh exec hub nginx -t
+
+You will se some a bunch of log telling you if the configuration is fine or has errors.
+If there is no errors you can safely reload the service.
