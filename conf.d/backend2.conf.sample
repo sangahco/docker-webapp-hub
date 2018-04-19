@@ -10,4 +10,8 @@ server {
         
         include conf.d/proxy-header.include;
     }
+
+    # Remove the comment below if the service is NOT PMIS
+    # The location .well-known is used by certbot for generating a new ssl certificate
+    #location /.well-known {}
 }
