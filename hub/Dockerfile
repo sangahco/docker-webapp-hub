@@ -49,6 +49,7 @@ RUN set -e && \
   wget -P /etc/nginx/modsec/ http://raw.githubusercontent.com/SpiderLabs/ModSecurity/v2/master/modsecurity.conf-recommended && \
   mv /etc/nginx/modsec/modsecurity.conf-recommended /etc/nginx/modsec/modsecurity.conf && \
   sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/modsec/modsecurity.conf && \
+  echo 'load_module modules/ngx_http_modsecurity_module.so;' >> /etc/nginx/nginx.template.conf && \
   # cleanup
   apk del .build-deps && \
   rm -rf /usr/local/src
