@@ -1,6 +1,7 @@
 FROM sangah/nginx-base
 
 COPY ./index.html /usr/share/nginx/html/
+COPY ./modsec/ /etc/nginx/modsec/
 
 ENV NGINX_VERSION=1.12.2
 
@@ -28,6 +29,7 @@ RUN set -e && \
     openssl \
     ca-certificates \
     git && \
+  apk add --no-cache libstdc++ && \
   update-ca-certificates && \
   git clone --depth 1 -b v3/master --single-branch https://github.com/SpiderLabs/ModSecurity && \
   cd ModSecurity && \
@@ -45,11 +47,11 @@ RUN set -e && \
   ./configure --with-compat --add-dynamic-module=../ModSecurity-nginx && \
   make modules && \
   cp objs/ngx_http_modsecurity_module.so /etc/nginx/modules && \
-  mkdir /etc/nginx/modsec && \
-  wget -P /etc/nginx/modsec/ http://raw.githubusercontent.com/SpiderLabs/ModSecurity/v2/master/modsecurity.conf-recommended && \
+  mkdir -p /etc/nginx/modsec && \
+  wget -P /etc/nginx/modsec/ http://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/modsecurity.conf-recommended && \
   mv /etc/nginx/modsec/modsecurity.conf-recommended /etc/nginx/modsec/modsecurity.conf && \
   sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/modsec/modsecurity.conf && \
-  echo 'load_module modules/ngx_http_modsecurity_module.so;' >> /etc/nginx/nginx.template.conf && \
+  sed -i '1s/^/load_module modules\/ngx_http_modsecurity_module.so;\n/' /etc/nginx/nginx.template.conf && \
   # cleanup
   apk del .build-deps && \
   rm -rf /usr/local/src
