@@ -48,10 +48,15 @@ RUN set -e && \
   make modules && \
   cp objs/ngx_http_modsecurity_module.so /etc/nginx/modules && \
   mkdir -p /etc/nginx/modsec && \
-  wget -P /etc/nginx/modsec/ http://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/modsecurity.conf-recommended && \
-  mv /etc/nginx/modsec/modsecurity.conf-recommended /etc/nginx/modsec/modsecurity.conf && \
-  sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/modsec/modsecurity.conf && \
+  #wget -P /etc/nginx/modsec/ http://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/modsecurity.conf-recommended && \
+  #mv /etc/nginx/modsec/modsecurity.conf-recommended /etc/nginx/modsec/modsecurity.conf && \
+  #sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/modsec/modsecurity.conf && \
   sed -i '1s/^/load_module modules\/ngx_http_modsecurity_module.so;\n/' /etc/nginx/nginx.template.conf && \
+  # forward logs to docker log collector
+  ln -sf /dev/null /var/log/modsec_audit.log && \
+  ln -sf /dev/null /var/log/modsec_debug.log && \
+  touch /usr/share/nginx/modsec/modsecurity.conf && \
   # cleanup
   apk del .build-deps && \
   rm -rf /usr/local/src
+
