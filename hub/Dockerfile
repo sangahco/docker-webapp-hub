@@ -55,7 +55,7 @@ RUN set -e && \
   # forward logs to docker log collector
   ln -sf /dev/null /var/log/modsec_audit.log && \
   ln -sf /dev/null /var/log/modsec_debug.log && \
-  touch /usr/share/nginx/modsec/modsecurity.conf && \
+  mkdir -p /usr/share/nginx/modsec && touch /usr/share/nginx/modsec/modsecurity.conf && \
   # cleanup
   apk del .build-deps && \
   rm -rf /usr/local/src
