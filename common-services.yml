@@ -25,8 +25,9 @@ services:
     - LOGSPOUT=ignore
     volumes: 
     - ${SSL_HOME}:${SSL_HOME}
-    - /tmp:/usr/share/nginx/html
-    - ./conf.d:/usr/share/nginx/conf.d
+    - ./conf.d:/usr/share/nginx/vhosts/
+    - ./html:/usr/share/nginx/html
+    - ${HTPASSWD_PATH}:/usr/share/nginx/conf.d/.htpasswd
 
   logging:
     logging: 

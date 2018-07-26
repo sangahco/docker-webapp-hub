@@ -2,29 +2,42 @@
 
 set -e
 
-DOCKER_COMPOSE_VERSION="1.11.2"
+SCRIPT_BASE_PATH=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+cd "$SCRIPT_BASE_PATH"
+
+###############################################
+# Extract Environment Variables from .env file
+# Ex. REGISTRY_URL="$(getenv REGISTRY_URL)"
+###############################################
+getenv(){
+    local _env="$(printenv $1)"
+    echo "${_env:-$(cat .env | awk 'BEGIN { FS="="; } /^'$1'/ {sub(/\r/,"",$2); print $2;}')}"
+}
+
+DOCKER_COMPOSE_VERSION="1.14.0"
 CONF_ARG="-f docker-compose.yml"
 HUB_NETWORK_NAME="hub_net"
 HUB_NETWORK_ID="$(docker network ls --format {{.ID}} --filter name=$HUB_NETWORK_NAME)"
 HUB_TEMP_VOLUME_NAME="tmp"
-SCRIPT_BASE_PATH=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 PATH=$PATH:/usr/local/bin/
+PROJECT_NAME="$(getenv PROJECT_NAME)"
+REGISTRY_URL="$(getenv REGISTRY_URL)"
 
-cd "$SCRIPT_BASE_PATH"
-
-PROJECT_NAME="$PROJECT_NAME"
-if [ -z "$PROJECT_NAME" ]; then
-    PROJECT_NAME="$(cat .env | awk 'BEGIN { FS="="; } /^PROJECT_NAME/ {sub(/\r/,"",$2); print $2;}')"
-fi
-REGISTRY_URL="$REGISTRY_URL"
-if [ -z "$REGISTRY_URL" ]; then
-    REGISTRY_URL="$(cat .env | awk 'BEGIN { FS="="; } /^REGISTRY_URL/ {sub(/\r/,"",$2); print $2;}')"
-fi
-
-if ! command -v docker-compose >/dev/null 2>&1; then
+########################################
+# Install docker-compose
+# DOCKER_COMPOSE_VERSION need to be set
+########################################
+install_docker_compose() {
     sudo curl -L "https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)" \
     -o /usr/local/bin/docker-compose
     sudo chmod +x /usr/local/bin/docker-compose
+    return 0
+}
+
+if ! command -v docker-compose >/dev/null 2>&1; then
+    install_docker_compose
+elif [[ "$(docker-compose version --short)" != "$DOCKER_COMPOSE_VERSION" ]]; then
+    install_docker_compose
 fi
 
 on_run() {
@@ -57,6 +70,8 @@ echo "  down            Stop the services"
 echo "  ps              Show the status of the services"
 echo "  logs            Follow the logs on console"
 echo "  login           Log in to a Docker registry"
+echo "  reload          Gracefully reload the hub"
+echo "  check           Check if the configuration is right"
 echo "  remove-all      Remove all containers"
 echo "  stop-all        Stop all containers running"
 echo "  build           Build the image"
@@ -100,6 +115,14 @@ elif [ "$1" == "up" ]; then
     docker-compose $CONF_ARG pull
     docker-compose $CONF_ARG build --pull
     docker-compose $CONF_ARG up -d --remove-orphans
+    exit 0
+
+elif [ "$1" == "reload" ]; then
+    docker-compose $CONF_ARG exec hub nginx -s reload
+    exit 0
+
+elif [ "$1" == "check" ]; then
+    docker-compose $CONF_ARG exec hub nginx -t && echo "Everything is fine!"
     exit 0
 
 elif [ "$1" == "stop-all" ]; then
