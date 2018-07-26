@@ -1,3 +1,8 @@
+[![HitCount](http://hits.dwyl.io/sangahco/sangahco/docker-webapp-hub.svg)](http://hits.dwyl.io/sangahco/sangahco/docker-webapp-hub)
+[![Jenkins](https://img.shields.io/jenkins/s/https/dev.builder.sangah.com/job/web-hub.svg?label=master&style=flat-square)]()
+[![Jenkins](https://img.shields.io/jenkins/s/https/dev.builder.sangah.com/job/web-hub-modsec.svg?label=modsecurity&style=flat-square)]()
+
+
 # Hub for PMIS instances
 
 Thss web server is used as a controller for several PMIS application running on the same server.
