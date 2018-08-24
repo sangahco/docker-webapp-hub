@@ -1,6 +1,6 @@
 [![HitCount](http://hits.dwyl.io/sangahco/sangahco/docker-webapp-hub.svg)](http://hits.dwyl.io/sangahco/sangahco/docker-webapp-hub)
-[![Jenkins](https://img.shields.io/jenkins/s/https/dev.builder.sangah.com/job/web-hub.svg?label=master&style=flat-square)]()
-[![Jenkins](https://img.shields.io/jenkins/s/https/dev.builder.sangah.com/job/web-hub-modsec.svg?label=modsecurity&style=flat-square)]()
+[![Jenkins](https://img.shields.io/jenkins/s/https/dev.builder.sangah.com/job/web-hub.svg?label=master&style=flat-square)](https://dev.builder.sangah.com/job/web-hub/)
+[![Jenkins](https://img.shields.io/jenkins/s/https/dev.builder.sangah.com/job/web-hub-modsec.svg?label=modsecurity&style=flat-square)](https://dev.builder.sangah.com/job/web-hub-modsec/)
 
 
 # Hub for PMIS instances
