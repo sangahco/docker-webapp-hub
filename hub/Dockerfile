@@ -52,9 +52,10 @@ RUN set -e && \
   #mv /etc/nginx/modsec/modsecurity.conf-recommended /etc/nginx/modsec/modsecurity.conf && \
   #sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/modsec/modsecurity.conf && \
   sed -i '1s/^/load_module modules\/ngx_http_modsecurity_module.so;\n/' /etc/nginx/nginx.template.conf && \
+  \
   # forward logs to docker log collector
-  ln -sf /dev/null /var/log/modsec_audit.log && \
-  ln -sf /dev/null /var/log/modsec_debug.log && \
+  ln -sf /dev/stdout /var/log/modsec_audit.log && \
+  ln -sf /dev/stdout /var/log/modsec_debug.log && \
   mkdir -p /usr/share/nginx/modsec && touch /usr/share/nginx/modsec/modsecurity.conf && \
   # cleanup
   apk del .build-deps && \
