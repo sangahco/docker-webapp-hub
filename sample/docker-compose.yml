@@ -3,11 +3,12 @@ version: "2"
 services: 
 
   nginx:
-    container_name: sample-web-srv
-    image: nginx:alpine
+    image: sangah/nginx-base
     volumes: 
     - ./html:/usr/share/nginx/html
+    - ./conf.d:/usr/share/nginx/conf.d
     networks: 
+      default:
       hub_net:
         aliases:
         - sample
@@ -16,8 +17,8 @@ services:
     image: php:5.6-fpm
     volumes:
     - ./html:/usr/share/nginx/html
-    networks: 
-      hub_net:
+    networks:
+      default:
         aliases:
         - samplephp
 
