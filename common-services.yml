@@ -6,7 +6,7 @@ services:
     extends:
       service: logging
     volumes:
-    - tmp:/tmp
+    - ${TEMP_PATH}:/tmp
     - ngx:/etc/nginx/www
 
   php:
