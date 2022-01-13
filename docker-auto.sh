@@ -14,7 +14,7 @@ getenv(){
     echo "${_env:-$(cat .env | awk 'BEGIN { FS="="; } /^'$1'/ {sub(/\r/,"",$2); print $2;}')}"
 }
 
-DOCKER_COMPOSE_VERSION="1.14.0"
+DOCKER_COMPOSE_VERSION="1.29.2"
 CONF_ARG="-f docker-compose.yml"
 HUB_NETWORK_NAME="hub_net"
 HUB_NETWORK_ID="$(docker network ls --format {{.ID}} --filter name=$HUB_NETWORK_NAME)"
