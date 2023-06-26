@@ -118,7 +118,8 @@ elif [ "$1" == "up" ]; then
     exit 0
 
 elif [ "$1" == "reload" ]; then
-    docker-compose $CONF_ARG exec hub nginx -s reload
+    # -T make sure we can run reload command on crontab
+    docker-compose $CONF_ARG exec -T hub nginx -s reload
     exit 0
 
 elif [ "$1" == "check" ]; then
