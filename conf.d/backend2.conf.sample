@@ -3,12 +3,24 @@ server {
     ### 1: CHANGE THE DOMAIN!
     server_name pmis2.kspmis.com;
     
-    location / {
+    location @backend {
         ### 2: CHANGE THE ALIAS!
         set $upstream_webapp pmis2;
         proxy_pass http://$upstream_webapp;
         
         include conf.d/proxy-header.include;
+    }
+
+    location / {
+        try_files $uri @backend;
+    }
+
+    location /Test/ {
+        try_files $uri @backend;
+
+        allow 203.239.21.0/24;
+        allow 127.0.0.1;
+        deny  all;
     }
 
     # Remove the comment below if the service is NOT PMIS
