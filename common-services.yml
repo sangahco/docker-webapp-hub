@@ -24,6 +24,7 @@ services:
     environment:
     - LOGSPOUT=ignore
     volumes: 
+    - ${LOG_PATH}:/var/log/nginx
     - ${SSL_HOME}:${SSL_HOME}
     - ./conf.d:/usr/share/nginx/vhosts/
     - ./html:/usr/share/nginx/html
